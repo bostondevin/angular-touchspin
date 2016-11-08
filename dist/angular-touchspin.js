@@ -244,7 +244,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    TouchSpinController.prototype.ctrlDown = false;
 
 	    TouchSpinController.prototype.keyUp = function (event) {
-        	this.ctrlDown = true;
+        	this.ctrlDown = false;
 	        var code = event.keyCode || event.which;
 	        if (code === 40 /* ArrowDown */ || code === 38 /* ArrowUp */) {
 	                this.stopSpin();
