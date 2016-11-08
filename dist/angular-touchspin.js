@@ -241,21 +241,48 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        this.changeValue(value);
 	    };
+	    TouchSpinController.prototype.ctrlDown = false;
+
 	    TouchSpinController.prototype.keyUp = function (event) {
+        	this.ctrlDown = true;
 	        var code = event.keyCode || event.which;
 	        if (code === 40 /* ArrowDown */ || code === 38 /* ArrowUp */) {
 	                this.stopSpin();
 	            }
 	    };
 	    TouchSpinController.prototype.keyDown = function (event) {
+
 	        var code = event.keyCode || event.which;
+
 	        if (code === 38 /* ArrowUp */) {
 	                this.increment();
 	                event.preventDefault();
-	            } else if (code === 40 /* ArrowDown */) {
+	            } else if (code === 40 /* ArrowDown */ ) {
 	                this.decrement();
 	                event.preventDefault();
 	            }
+
+	        if (code == 17 || code == 91) // Command or control
+	        	this.ctrlDown = true;
+
+	        if (this.ctrlDown && (code == 65 || code == 67 || code == 86)) {
+	        	// select all, copy or paste
+	        } else {
+			if ( (code >= 48 && code <= 57) || (code >= 96 && code <= 105) || code == 189 || code == 190 || code == 46 || code == 37 || code == 39 || code == 8 || code == 127) {
+				// Is numeric, minus sign, period, left/right arrow, backspace, delete, control, command
+			} else {
+				event.preventDefault();
+			}
+	        }
+
+	        // Only allow one decimal point
+	        if (event.target.value.split('.').length > 1 && (code == 190))
+	        	event.preventDefault();
+
+	        // Only allow one negative sign
+	        if (event.target.value.split('-').length > 1 && (code == 109 || code == 173 || code == 189))
+	        	event.preventDefault();
+
 	    };
 	    return TouchSpinController;
 	})();
